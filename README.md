@@ -38,11 +38,11 @@ Sorting machines in food and recycling plants are re-configured by engineers who
 | Metric | Ground-truth positions (upper bound, measured) | Full system: own camera + detector + behavior tree |
 |---|---|---|
 | Scenes / items | **20 / 176** | 200+ / ~1,800 *target* |
-| Pick success | **98.3%** | ≥ 95% *target* |
-| Items in the correct tray | **97.2%** | ≥ 93% *target* |
+| Pick success | **98.9%** | ≥ 95% *target* |
+| Items in the correct tray | **98.9%** (174/176) | ≥ 93% *target* |
 | Planning failures on feasible items | **0** | < 1% *target* |
 | Recovered after a failed grasp | n/a | ≥ 80% *target* |
-| Throughput (simulation time) | *placeholder* items/min | *placeholder* items/min |
+| Throughput (simulation time) | **4.3** items/min | *placeholder* items/min |
 
 **Perception:** synthetic images, domain randomization.
 
