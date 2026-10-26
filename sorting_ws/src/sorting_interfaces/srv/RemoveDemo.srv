@@ -1,0 +1,6 @@
+# Delete one demonstration (e.g. a mistaken drop) and re-infer the rule.
+
+uint32 index
+---
+bool success
+string message

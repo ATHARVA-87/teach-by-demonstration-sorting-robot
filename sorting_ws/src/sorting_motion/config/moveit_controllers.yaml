@@ -1,0 +1,27 @@
+# The robot-facing contract (decision D8): MoveIt executes through these two
+# actions. The simulator (sorting_sim), mujoco_ros2_control + ros2_controllers,
+# or a real Panda driver can serve them; nothing above this layer changes.
+trajectory_execution:
+  allowed_execution_duration_scaling: 1.2
+  allowed_goal_duration_margin: 0.5
+  allowed_start_tolerance: 0.02          # rad; sim PD tracking leaves ~5 mrad
+  execution_duration_monitoring: true    # against the node clock = /clock (use_sim_time)
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - panda_arm_controller
+    - panda_hand_controller
+
+  panda_arm_controller:                  # ros2_controllers joint_trajectory_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7]
+
+  panda_hand_controller:                 # ros2_controllers parallel_gripper_action_controller
+    action_ns: gripper_cmd
+    type: ParallelGripperCommand
+    default: true
+    joints: [panda_finger_joint1]

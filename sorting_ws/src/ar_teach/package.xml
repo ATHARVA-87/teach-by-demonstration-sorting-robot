@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ar_teach</name>
+  <version>0.1.0</version>
+  <description>AR teaching mode: webcam + MediaPipe hand tracking, pinch to grab virtual items and drop them in boxes; publishes demonstrations.</description>
+  <maintainer email="thombare.atharva16@gmail.com">Atharva Thombare</maintainer>
+  <license>Apache-2.0</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>sorting_common</exec_depend>
+  <exec_depend>sorting_scene</exec_depend>
+  <exec_depend>sorting_interfaces</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

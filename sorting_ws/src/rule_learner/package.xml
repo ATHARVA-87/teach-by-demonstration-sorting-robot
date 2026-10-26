@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>rule_learner</name>
+  <version>0.1.0</version>
+  <description>Infers the sorting rule from demonstrations (Bayesian concept learning with a simplicity prior), asks the most informative question, detects contradictions, and writes the robot-independent task file.</description>
+  <maintainer email="thombare.atharva16@gmail.com">Atharva Thombare</maintainer>
+  <license>Apache-2.0</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-pydantic</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+  <exec_depend>sorting_common</exec_depend>
+  <exec_depend>sorting_scene</exec_depend>
+  <exec_depend>sorting_task</exec_depend>
+  <exec_depend>sorting_interfaces</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

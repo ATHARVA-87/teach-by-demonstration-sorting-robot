@@ -1,0 +1,28 @@
+# Lint config for all Python in the repo.
+line-length = 110
+target-version = "py314"
+extend-exclude = ["sorting_ws/build", "sorting_ws/install", "sorting_ws/log", "third_party",
+                  "sorting_ws/src/dashboard"]  # parked old code until it is ported in M6
+
+[lint]
+# E/W pycodestyle, F pyflakes, I isort, B bugbear, UP pyupgrade, N naming, D docstrings (public API)
+select = ["E", "W", "F", "I", "B", "UP", "N", "D1"]
+ignore = [
+  "D105",  # magic methods
+  "D107",  # __init__ (class docstring covers it)
+]
+
+[lint.per-file-ignores]
+"**/test/**" = ["D1"]           # test names are their documentation
+"**/setup.py" = ["D1"]
+"**/launch/*.py" = ["D103"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.isort]
+known-first-party = ["sorting_common", "sorting_scene", "ar_teach", "rule_learner", "sorting_sim",
+                     "sorting_perception", "sorting_execution", "safety_monitor", "sorting_bringup", "dashboard"]
+
+[format]
+quote-style = "double"

@@ -1,0 +1,46 @@
+# colcon build output
+sorting_ws/build/
+sorting_ws/install/
+sorting_ws/log/
+build/
+install/
+log/
+
+# Downloaded or generated artifacts (regenerate with scripts/)
+# MediaPipe hand model (scripts/download_model.sh)
+models/
+*.task
+# robot models fetched by scripts/ (e.g. MuJoCo Menagerie)
+third_party/
+# synthetic perception datasets
+datasets/
+# trained model weights
+weights/
+*.pt
+*.pth
+*.onnx
+# benchmark CSVs and generated plots
+results/
+*.csv
+# task files written by ~/confirm during local runs (examples live in docs/)
+tasks/
+# rosbag recordings
+bags/
+*.mcap
+*.db3
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# MuJoCo writes instability warnings to the working directory
+MUJOCO_LOG.TXT

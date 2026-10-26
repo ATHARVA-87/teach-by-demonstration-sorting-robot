@@ -1,0 +1,230 @@
+{
+  "$defs": {
+    "ClauseModel": {
+      "additionalProperties": false,
+      "description": "``if`` every listed attribute has the given value, the item goes to ``box``.",
+      "properties": {
+        "if": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "minProperties": 1,
+          "title": "If",
+          "type": "object"
+        },
+        "box": {
+          "title": "Box",
+          "type": "string"
+        }
+      },
+      "required": [
+        "if",
+        "box"
+      ],
+      "title": "ClauseModel",
+      "type": "object"
+    },
+    "CompetitorModel": {
+      "additionalProperties": false,
+      "description": "Another rule that was still plausible when the task was approved.",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "probability": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "description",
+        "probability"
+      ],
+      "title": "CompetitorModel",
+      "type": "object"
+    },
+    "ProvenanceModel": {
+      "additionalProperties": false,
+      "description": "How the rule was learned and approved (audit trail and evaluation).",
+      "properties": {
+        "approved": {
+          "const": true,
+          "default": true,
+          "title": "Approved",
+          "type": "boolean"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "demonstrations": {
+          "minimum": 0,
+          "title": "Demonstrations",
+          "type": "integer"
+        },
+        "queries": {
+          "minimum": 0,
+          "title": "Queries",
+          "type": "integer"
+        },
+        "epsilon": {
+          "exclusiveMaximum": 0.5,
+          "minimum": 0.0,
+          "title": "Epsilon",
+          "type": "number"
+        },
+        "lambda": {
+          "minimum": 0.0,
+          "title": "Lambda",
+          "type": "number"
+        },
+        "threshold": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Threshold",
+          "type": "number"
+        },
+        "competing": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CompetitorModel"
+          },
+          "title": "Competing",
+          "type": "array"
+        },
+        "unexplained_demonstrations": {
+          "default": [],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Unexplained Demonstrations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "confidence",
+        "demonstrations",
+        "queries",
+        "epsilon",
+        "lambda",
+        "threshold"
+      ],
+      "title": "ProvenanceModel",
+      "type": "object"
+    },
+    "RuleModel": {
+      "additionalProperties": false,
+      "description": "Decision list: the first matching clause wins, otherwise ``default_box``.",
+      "properties": {
+        "clauses": {
+          "items": {
+            "$ref": "#/$defs/ClauseModel"
+          },
+          "title": "Clauses",
+          "type": "array"
+        },
+        "default_box": {
+          "title": "Default Box",
+          "type": "string"
+        }
+      },
+      "required": [
+        "clauses",
+        "default_box"
+      ],
+      "title": "RuleModel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The complete task file.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task": {
+      "const": "sort",
+      "default": "sort",
+      "title": "Task",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 80,
+      "pattern": "^[a-z0-9_\\-]+$",
+      "title": "Name",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "family": {
+      "enum": [
+        "constant",
+        "one_vs_rest",
+        "mapping",
+        "conjunction",
+        "decision_list"
+      ],
+      "title": "Family",
+      "type": "string"
+    },
+    "attributes": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "minProperties": 1,
+      "title": "Attributes",
+      "type": "object"
+    },
+    "boxes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Boxes",
+      "type": "array"
+    },
+    "rule": {
+      "$ref": "#/$defs/RuleModel"
+    },
+    "on_unknown_item": {
+      "const": "skip_and_report",
+      "default": "skip_and_report",
+      "title": "On Unknown Item",
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceModel"
+    }
+  },
+  "required": [
+    "name",
+    "created_at",
+    "description",
+    "family",
+    "attributes",
+    "boxes",
+    "rule",
+    "provenance"
+  ],
+  "title": "TaskFile",
+  "type": "object"
+}

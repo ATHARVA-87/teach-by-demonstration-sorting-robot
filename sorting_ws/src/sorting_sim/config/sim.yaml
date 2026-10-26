@@ -1,0 +1,32 @@
+# sorting_sim node parameters (decision D8).
+sorting_sim:
+  ros__parameters:
+    scene_config: ""            # empty: installed sorting_scene/config/scene.yaml
+    panda_xml: ""               # empty: $SORTING_PANDA_XML (scripts/fetch_robot_models.sh)
+    scene_seed: 0
+    n_items: 0                  # 0: random within scene.yaml's range
+    real_time_factor: 1.0       # sim seconds per wall second; <= 0 runs as fast as possible
+    joint_state_hz: 100.0
+    camera_hz: 10.0             # in sim time
+    debug_pose_hz: 10.0
+    goal_tolerance_rad: 0.02    # FollowJointTrajectory final position tolerance
+    goal_time_tolerance_s: 1.0  # extra sim time allowed to settle within tolerance
+    stopped_velocity_tolerance: 0.01  # rad/s; goal reached only once stopped (as in JTC)
+    gripper_tolerance_m: 0.002        # reached_goal when the finger is this close to the target
+    gripper_stall_velocity: 0.001     # m/s; slower than this counts as stopped
+    gripper_stall_time_s: 0.2         # stopped this long short of the target = stalled (holding)
+    gripper_timeout_s: 3.0            # sim seconds
+    camera:                           # overhead camera, looking straight down
+      center_x: 0.48                  # m, above this table point
+      center_y: 0.06
+      height: 1.0                     # m above the table top
+      fovy_deg: 45.0
+      width: 640
+      height_px: 480
+    physics:                          # item contact and mass
+      item_density: 400.0             # kg/m^3 (32 mm cube ~ 13 g)
+      item_friction: [1.2, 0.02, 0.002]  # sliding, torsional, rolling
+      finger_friction: 1.5
+      condim: 4                       # sliding + torsional friction (stable pinch grasps)
+      gripper_stiffness_scale: 3.0    # x Menagerie's 100 N/m servo; x10 let prism edges sink into the pads
+    # No use_sim_time: this node *is* the clock (it stamps from MuJoCo time directly).

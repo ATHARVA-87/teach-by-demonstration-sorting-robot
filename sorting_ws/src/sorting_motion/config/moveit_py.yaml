@@ -1,0 +1,65 @@
+# moveit_py (MoveItCpp) settings for the executor.
+planning_scene_monitor_options:
+  name: "planning_scene_monitor"
+  robot_description: "robot_description"
+  joint_state_topic: "/joint_states"
+  attached_collision_object_topic: "/moveit_cpp/planning_scene_monitor"
+  publish_planning_scene_topic: "/moveit_cpp/publish_planning_scene"
+  monitored_planning_scene_topic: "/moveit_cpp/monitored_planning_scene"
+  wait_for_initial_state_timeout: 10.0   # s; 0.0 for offline planning (no robot running)
+
+planning_pipelines:
+  pipeline_names: ["pilz_industrial_motion_planner", "ompl"]
+
+# Transfers: Pilz PTP (deterministic, time-optimal in joint space).
+ptp_params:
+  plan_request_params:
+    planning_attempts: 1
+    planning_pipeline: pilz_industrial_motion_planner
+    planner_id: PTP
+    planning_time: 2.0
+    max_velocity_scaling_factor: 0.5
+    max_acceleration_scaling_factor: 0.5
+
+# Approach / retreat: Pilz LIN (straight Cartesian line). 0.15 scaling keeps
+# joint accelerations within limits near the table (measured in M3).
+lin_params:
+  plan_request_params:
+    planning_attempts: 1
+    planning_pipeline: pilz_industrial_motion_planner
+    planner_id: LIN
+    planning_time: 2.0
+    max_velocity_scaling_factor: 0.15
+    max_acceleration_scaling_factor: 0.15
+
+# Transfer while holding an item: gentler accelerations so it doesn't slip
+# (a cylinder flew off the table at 0.5 in the first M3 batch).
+ptp_carry_params:
+  plan_request_params:
+    planning_attempts: 1
+    planning_pipeline: pilz_industrial_motion_planner
+    planner_id: PTP
+    planning_time: 2.0
+    max_velocity_scaling_factor: 0.4
+    max_acceleration_scaling_factor: 0.2
+
+# LIN retry: near the base, short vertical lines can exceed joint acceleration
+# limits at 0.15; slower first, then a short PTP to the same pose.
+lin_slow_params:
+  plan_request_params:
+    planning_attempts: 1
+    planning_pipeline: pilz_industrial_motion_planner
+    planner_id: LIN
+    planning_time: 2.0
+    max_velocity_scaling_factor: 0.05
+    max_acceleration_scaling_factor: 0.05
+
+# Fallback when PTP fails (e.g. a straight joint-space path would collide).
+ompl_params:
+  plan_request_params:
+    planning_attempts: 1
+    planning_pipeline: ompl
+    planner_id: RRTConnectkConfigDefault
+    planning_time: 2.0
+    max_velocity_scaling_factor: 0.5
+    max_acceleration_scaling_factor: 0.5

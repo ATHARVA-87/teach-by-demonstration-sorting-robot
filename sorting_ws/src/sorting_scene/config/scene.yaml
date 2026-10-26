@@ -1,0 +1,53 @@
+# Shared scene model: the ONE definition of the sorting cell, used by the AR
+# teaching view (ar_teach), the simulator (sorting_sim) and the rule learner.
+# Units: metres and radians. World frame = robot base: x forward (away from
+# the robot toward the worker), y to the robot's left, z up.
+
+table:
+  surface_z: 0.0             # table top height in the world frame (robot is mounted on the table)
+  # Region where items are placed (and can be dropped back), world XY.
+  items_area: {x_min: 0.30, x_max: 0.62, y_min: -0.30, y_max: 0.16}
+  # Whole visible table (items area + boxes), drawn in the AR view.
+  extent:     {x_min: 0.24, x_max: 0.72, y_min: -0.34, y_max: 0.46}
+
+# Item attributes. Colors are physical paint (sRGB 0-255), rendered
+# identically in AR and MuJoCo. Order matters: it defines value indices.
+attributes:
+  color:
+    red:    [200, 40, 34]
+    green:  [46, 150, 70]
+    blue:   [40, 90, 200]
+    yellow: [235, 190, 30]
+  size:                      # footprint width / diameter in metres
+    small:  0.032
+    medium: 0.040
+    large:  0.052            # >= 1.5x small (design plan D6, rev. 11)
+  shape: [cube, cylinder, prism]   # top view: square, circle, triangle
+  item_height: 0.035         # all items are this tall (stable, graspable)
+
+# Boxes (bins). Order = slot index, which also fixes the AR/MuJoCo pattern
+# (A hatch, B dots, C plain, D cross-hatch, E vertical lines, then repeat).
+boxes:
+  - {label: A, x: 0.32, y: 0.34, size: 0.13, wall_height: 0.05}
+  - {label: B, x: 0.48, y: 0.34, size: 0.13, wall_height: 0.05}
+  - {label: C, x: 0.64, y: 0.34, size: 0.13, wall_height: 0.05}
+
+# Randomized scene generation (sorting_scene.generate_scene).
+generation:
+  n_items: {min: 6, max: 10}
+  min_clearance: 0.025       # free gap between item footprints, m
+  max_tries: 2000            # rejection-sampling budget per scene
+
+# AR view: an exact affine map between world XY and webcam pixels.
+#   [u, v] = center_px + pixels_per_meter * R @ ([x, y] - world_center)
+# u_axis/v_axis give the world direction of +u (right) and +v (down) in the
+# image. The worker faces the robot across the table, so the robot is at
+# the top of the view (-v = -x) and the worker's right is +y (+u), which
+# matches a mirrored webcam image.
+ar_view:
+  image_size: [640, 480]
+  world_center: [0.48, 0.06]
+  center_px: [320, 240]
+  pixels_per_meter: 760.0
+  u_axis: [0.0, 1.0]
+  v_axis: [1.0, 0.0]

@@ -1,0 +1,37 @@
+# Python packages for the gesture_ros conda env (Python 3.14), teach-by-demonstration sorting cell.
+# Install with:  python -m pip install -r requirements.txt
+# ROS 2 itself (rclpy, message packages) comes from apt, NOT from pip.
+
+# --- Perception -------------------------------------------------------------
+mediapipe==1.1.1                 # HandLandmarker (Tasks API)
+opencv-contrib-python==5.0.0.93  # pulled in by mediapipe; do NOT also install opencv-python
+numpy==2.5.4                     # must be >= system python3-numpy (2.3.5) for ROS's compiled msg code
+pillow==13.0.0                   # AR overlay text rendering
+
+# --- Simulation -------------------------------------------------------------
+mujoco==3.12.0                   # same version as ROS's mujoco_vendor (mujoco_ros2_control)
+
+# --- Rule learning / evaluation ---------------------------------------------
+pydantic==2.14.1                 # task-file schema validation (sorting_task)
+matplotlib==3.11.2               # benchmark plots (rule_learner.plots)
+
+# --- Dashboard ----------------------------------------------------
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+websockets==17.3
+
+# --- ROS 2 Python helpers ---------------------------------------------------
+# apt installs these only for /usr/bin/python3; the env needs its own copies.
+lark==1.3.1                      # rosidl message parser, imported by rclpy msg loading
+empy==4.2.1                      # rosidl templates
+catkin_pkg==1.1.1                # package.xml parsing (colcon, ament)
+pyyaml==6.0.3                    # ROS parameter files
+setuptools==79.0.1               # ament_python package builds
+colcon-common-extensions==0.3.0  # build tool, installed in-env so builds use this python
+osrf-pycommon==2.0.2             # needed by ROS's pytest plugin (apt has 2.1.7; PyPI tops out at 2.0.2)
+
+# --- Quality gate (scripts/check.sh) ----------------------------------------
+pytest==9.1.1                    # also used directly by tests and scripts/check.sh
+ruff==0.17.2
+mypy==2.4.0
+types-PyYAML==6.0.12.20260906

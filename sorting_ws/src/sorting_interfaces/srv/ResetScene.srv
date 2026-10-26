@@ -1,0 +1,7 @@
+# Rebuild the simulated cell with a new randomized scene (sorting_scene generator).
+
+int32 seed        # scene seed (reproducible)
+uint32 n_items    # 0 = random count from scene.yaml
+---
+bool success
+string message

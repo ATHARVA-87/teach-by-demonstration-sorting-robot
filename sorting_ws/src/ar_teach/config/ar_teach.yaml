@@ -1,0 +1,38 @@
+# Parameters for the ar_teach node (ros2 run ar_teach teach_node --ros-args --params-file ...).
+ar_teach:
+  ros__parameters:
+    source: webcam              # webcam | synthetic (scripted hand, no camera needed)
+    scene_config: ""            # "" -> installed sorting_scene/config/scene.yaml
+    scene_seed: 0               # random scene (sorting_scene) shown for teaching
+    message_hold_s: 3.0         # how long an event banner ("Hand lost...") stays up
+    fps: 30.0
+    model_path: ""              # "" -> $SORTING_HAND_MODEL (set by env_setup.sh)
+    webcam:
+      index: 0
+      width: 640
+      height: 480
+      mirror: true
+      lock_framerate: true
+      reopen_period_s: 2.0      # retry interval while no webcam is found
+      max_failed_reads: 15      # consecutive failed reads that count as "camera lost"
+    tracking:
+      min_detection_confidence: 0.5   # MediaPipe hand detection / presence threshold
+      min_tracking_confidence: 0.5
+    pinch:
+      grab_ratio: 0.30          # thumb-index distance / hand size below which a pinch closes
+      release_ratio: 0.45       # ... above which it opens again (hysteresis band 0.30-0.45)
+      ratio_alpha: 0.6          # EMA smoothing of the ratio
+      cursor_alpha: 0.5         # EMA smoothing of the cursor
+      grab_frames: 2            # debounce: frames needed to grab
+      release_frames: 2         # debounce: frames needed to release
+    session:
+      hover_margin_px: 8.0      # pick radius beyond the item edge
+      lost_timeout_s: 0.4       # hand missing longer than this mid-drag -> item returns
+    lighting:
+      dark_mean: 45.0           # mean luma below this -> "Too dark" message
+      bright_clipped_fraction: 0.35
+    synthetic:                  # rule followed by the scripted hand (source: synthetic)
+      attribute: color
+      values: [red, blue]
+      boxes: [A, B]
+      default_box: C

@@ -1,0 +1,12 @@
+# Pick-and-place planner settings (sorting_motion.pick_place.PlannerConfig).
+reach_max: 0.80              # m, base -> item, horizontal; measured top-down limit 0.799 m
+                             # (results/reachability/summary.json, max_reach_m_full)
+approach: 0.10               # m, pre-grasp / lift height above the grasp
+release_clearance: 0.015     # m, fingertips above the tray walls when opening
+clearance_min: 0.004         # m, open finger to a neighbour's footprint
+joint_limit_margin: 0.03     # rad, IK solutions closer to a joint limit are rejected
+slot_offsets:                # m, drop points around each tray centre, used in turn
+  - [-0.03, -0.03]
+  - [0.03, 0.03]
+  - [-0.03, 0.03]
+  - [0.03, -0.03]

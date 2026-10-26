@@ -1,0 +1,17 @@
+# Parameters for the rule_learner node. Defaults follow decision D7 (DECISIONS.md).
+rule_learner:
+  ros__parameters:
+    scene_config: ""          # "" -> installed sorting_scene/config/scene.yaml (attribute vocabulary, boxes)
+    families: [constant, one_vs_rest, mapping, conjunction, decision_list]   # hypothesis families
+    prior_lambda: 1.0         # λ: simplicity prior P(family) ∝ exp(-λ · complexity)
+    epsilon: 0.05             # ε: assumed probability that a drop is a teacher mistake
+    stop_confidence: 0.99     # stop asking when P(most likely rule) >= this
+    max_queries: 20           # question budget; then report "still unsure between X and Y"
+    active_learning: true     # false = never ask questions (passive learning)
+    candidates: 5             # rules listed in /rule_learner/state
+    query_seed: 0             # seed for tie-breaking between equally informative questions
+    query_timeout_s: 60.0     # re-ask a question that got no answer (e.g. rejected by the AR view)
+    ask_after_demos: 0        # 0 = scene minimum size (n_items.min): no questions before that many demos
+    conflict_requery: unresolved   # unresolved | always (ablation; wastes questions after one mistake)
+    max_conflict_asks: 4      # stop re-asking an item type after this many labels
+    tasks_dir: tasks          # where ~/confirm writes task files (relative to the working directory)

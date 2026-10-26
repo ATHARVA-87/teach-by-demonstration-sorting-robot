@@ -1,0 +1,12 @@
+# Conda env for this project. Recreate with:
+#     conda env create -f environment.yml
+# Python must be the same minor version as the system /usr/bin/python3 (3.14 on
+# Ubuntu 26.04), because ROS 2 Lyrical's apt packages are compiled for it.
+name: gesture_ros
+channels:
+  - defaults
+dependencies:
+  - python=3.14
+  - pip
+  - pip:
+      - -r requirements.txt
